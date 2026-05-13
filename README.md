@@ -14,4 +14,5 @@ Client for JSONPlaceholder API with Service Layer and In-Memory Storage.
 1. Install dependencies: `uv sync`
 2. Run app: `uv run python main.py`
 3. Run linter: `uv run flake8 .`
-4. Run tests: `uv run python -m pytest`
+4. Run type checker: `uv run mypy .`
+5. Run tests: `uv run python -m pytest`

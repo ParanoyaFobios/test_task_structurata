@@ -1,7 +1,8 @@
 import logging
 from sdk.client import JsonPlaceholderClient
-from storage.repository import InMemoryPostRepository
+from sdk.exceptions import StructurataSdkError
 from services.orchestrator import PostOrchestrator
+from storage.repository import InMemoryPostRepository
 
 
 logging.basicConfig(level=logging.INFO)
@@ -16,12 +17,18 @@ def main() -> None:
     )
 
     try:
-        post = orchestrator.sync_post_by_id(1)
+        _run_sync(orchestrator)
+    except StructurataSdkError as error:
+        logger.error(f"Business application error: {error}")
     except Exception as error:
-        logger.error(f"An error occurred: {error}")
-        return
+        logger.critical(f"Unexpected system error: {error}")
 
-    logger.info(f"Success: {post.title}")
+
+def _run_sync(orchestrator: PostOrchestrator) -> None:
+    """Solving Jones Complexity problem and evade Python crash report."""
+    orchestrator.sync_all_posts()
+    post = orchestrator.sync_post_by_id(1)
+    logger.info(f"The post has been successfully synchronized: {post.title}")
 
 
 if __name__ == "__main__":
